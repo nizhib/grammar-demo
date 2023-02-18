@@ -1,0 +1,38 @@
+version: "3.5"
+
+services:
+  grammar-front:
+    build:
+      context: front
+      dockerfile: Dockerfile
+    networks:
+      - nizhib
+    expose:
+      - 80
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grammar-front.entrypoints=https
+      - traefik.http.routers.grammar-front.rule=Host(`grammar.nizhib.ai`)
+      - traefik.http.routers.grammar-front.tls.certresolver=nizhib
+
+  grammar-back:
+    build:
+      context: back
+      dockerfile: Dockerfile
+    networks:
+      - nizhib
+    expose:
+      - 5000
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grammar-back.entrypoints=https
+      - traefik.http.routers.grammar-back.rule=Host(`grammar.nizhib.ai`) && PathPrefix(`/api`)
+      - traefik.http.routers.grammar-back.tls.certresolver=nizhib
+      - traefik.http.routers.grammar-back.middlewares=remove-api
+      - traefik.http.middlewares.remove-api.stripprefix.prefixes=/api
+
+networks:
+  nizhib:
+    name: nizhib

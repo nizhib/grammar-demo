@@ -1,0 +1,11 @@
+*
+!src/
+!index.html
+!nginx.conf
+!package.json
+!pnpm-lock.yaml
+!postcss.config.cjs
+!tailwind.config.cjs
+!tsconfig.json
+!tsconfig.node.json
+!vite.config.json

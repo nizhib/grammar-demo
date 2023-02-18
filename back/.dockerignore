@@ -1,0 +1,6 @@
+*
+!.env
+!app.py
+!poetry.lock
+!prompts.json
+!pyproject.toml
