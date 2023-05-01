@@ -13,11 +13,11 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.responses import UJSONResponse as JSONResponse
 from pydantic import BaseModel
-from revChatGPT.V1 import Chatbot
+from revChatGPT.V3 import Chatbot
 
 load_dotenv()
 
-ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "invalid")
 LOGGING_LEVEL = "DEBUG"
 LOGGING_FORMAT = "[%(asctime)s] %(name)s:%(lineno)d: %(message)s"
 
@@ -25,7 +25,7 @@ logging.basicConfig(format=LOGGING_FORMAT, level=LOGGING_LEVEL)
 
 with open("prompts.json") as fin:
     prompts = json.load(fin)
-chatbot = Chatbot(config={"access_token": ACCESS_TOKEN})
+chatbot = Chatbot(api_key=OPENAI_API_KEY)
 app = FastAPI(root_path="/api")
 logger = logging.getLogger(__file__)
 
@@ -80,10 +80,8 @@ def grammarify(request: RequestData) -> JSONResponse:
 
     try:
         messages = []
-        read = 0
-        for data in chatbot.ask(**asdict(query)):
-            messages.append(data["message"][read:])
-            read = len(data["message"])
+        for data in chatbot.ask_stream(**asdict(query)):
+            messages.append(data)
 
         result.data = GPTResponse(message="".join(messages))
         result.success = True
