@@ -9,25 +9,29 @@ import time
 from dataclasses import asdict, dataclass
 from http import HTTPStatus
 
+import openai
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.responses import UJSONResponse as JSONResponse
 from pydantic import BaseModel
-from revChatGPT.V3 import Chatbot
 
 load_dotenv()
 
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "invalid")
+OPENAI_MODEL = os.environ.get("OPENAI_MODEL")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+OPENAI_ORGANIZATION = os.environ.get("OPENAI_ORGANIZATION")
 LOGGING_LEVEL = "DEBUG"
 LOGGING_FORMAT = "[%(asctime)s] %(name)s:%(lineno)d: %(message)s"
 
 logging.basicConfig(format=LOGGING_FORMAT, level=LOGGING_LEVEL)
 
-with open("prompts.json") as fin:
-    prompts = json.load(fin)
-chatbot = Chatbot(api_key=OPENAI_API_KEY)
+openai.api_key = OPENAI_API_KEY
+openai.organization = OPENAI_ORGANIZATION
+
 app = FastAPI(root_path="/api")
 logger = logging.getLogger(__file__)
+with open("prompts.json") as fin:
+    prompts = json.load(fin)
 
 
 class RequestData(BaseModel):
@@ -35,17 +39,20 @@ class RequestData(BaseModel):
 
 
 @dataclass
+class GPTMessage:
+    content: str
+    role: str = "user"
+
+
+@dataclass
 class GPTQuery:
-    prompt: str
-    conversation_id: str | None = None
-    parent_id: str | None = None
+    model: str
+    messages: list[GPTMessage]
 
 
 @dataclass
 class GPTResponse:
     message: str
-    conversation_id: str | None = None
-    parent_id: str | None = None
 
 
 @dataclass
@@ -76,14 +83,13 @@ def grammarify(request: RequestData) -> JSONResponse:
     status = HTTPStatus.OK
     result = ResponseData()
 
-    query = GPTQuery(prompt=prompt_for(request.text))
+    message = GPTMessage(content=prompt_for(request.text))
+    query = GPTQuery(model=OPENAI_MODEL, messages=[message])
 
     try:
-        messages = []
-        for data in chatbot.ask_stream(**asdict(query)):
-            messages.append(data)
-
-        result.data = GPTResponse(message="".join(messages))
+        completion = openai.ChatCompletion.create(**asdict(query))
+        response = completion.choices[0].message.content
+        result.data = GPTResponse(message=response)
         result.success = True
     except Exception as e:
         logger.exception(e)
