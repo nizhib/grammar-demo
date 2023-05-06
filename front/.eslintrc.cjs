@@ -1,5 +1,5 @@
 /** @type {import('eslint').Linter.Config} */
-module.exports = {
+const config = {
   root: true,
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -8,14 +8,14 @@ module.exports = {
   },
   env: {
     browser: true,
-    es2017: true,
+    es2020: true,
     node: true,
   },
   extends: [
-    'airbnb',
-    'airbnb-typescript',
+    'airbnb-base',
+    'airbnb-typescript/base',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    'plugin:react/jsx-runtime',
+    'plugin:solid/typescript',
     'prettier',
   ],
   overrides: [
@@ -28,16 +28,27 @@ module.exports = {
   ],
   rules: {
     // ESLint
-    // 'import/extensions': 'off',
+    'arrow-body-style': 'off',
+    'import/extensions': 'off',
     // TypeScript
     // '@typescript-eslint/explicit-function-return-type': 'error',
-    // '@typescript-eslint/typedef': [
-    //   'error',
-    //   {
-    //     parameter: true,
-    //     propertyDeclaration: true,
-    //     variableDeclaration: true,
-    //   },
-    // ],
+    '@typescript-eslint/no-misused-promises': [
+      'error',
+      {
+        checksVoidReturn: {
+          attributes: false,
+        },
+      },
+    ],
+    '@typescript-eslint/typedef': [
+      'error',
+      {
+        parameter: true,
+        propertyDeclaration: true,
+        // variableDeclaration: true,
+      },
+    ],
   },
 };
+
+module.exports = config;

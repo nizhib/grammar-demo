@@ -1,95 +1,92 @@
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import { FaGithub, FaKaggle, FaLinkedin, FaTelegram, FaTwitter } from 'react-icons/fa';
+import { Component, ParentProps } from 'solid-js';
 
-function SocialLink({
-  href,
-  brand,
-  className,
-  children,
-}: {
+import { cx } from 'class-variance-authority';
+import {
+  FaBrandsGithub,
+  FaBrandsKaggle,
+  FaBrandsLinkedin,
+  FaBrandsTelegram,
+  FaBrandsTwitter,
+} from 'solid-icons/fa';
+
+interface SocialLinkProps extends ParentProps {
   href: string;
   brand: string;
-  className: string;
-  children: React.ReactElement;
-}) {
-  const baseClasses = 'block h-5 w-5 text-gray-500';
+  class?: string;
+}
+
+const SocialLink: Component<SocialLinkProps> = (props) => {
+  const baseClass = 'block h-5 w-5 text-gray-500';
 
   return (
     <a
-      href={href}
-      className={classNames(baseClasses, className)}
-      aria-label={`Visit author's ${brand} profile`}
+      href={props.href}
+      class={cx(baseClass, props.class)}
+      aria-label={`Visit author's ${props.brand} profile`}
       rel="noreferrer"
       target="_blank"
     >
-      {children}
+      {props.children}
     </a>
   );
-}
-SocialLink.propTypes = {
-  href: PropTypes.string.isRequired,
-  brand: PropTypes.string.isRequired,
-  className: PropTypes.string,
 };
-SocialLink.defaultProps = { className: '' };
 
-export function GithubLink() {
+export const GithubLink: Component = () => {
   return (
     <SocialLink
       href="https://github.com/nizhib"
       brand="GitHub"
-      className="hover:text-brand-gh dark:hover:text-gray-100"
+      class="hover:text-[#171515] dark:hover:text-gray-100"
     >
-      <FaGithub className="h-full w-full" />
+      <FaBrandsGithub class="h-full w-full" />
     </SocialLink>
   );
-}
+};
 
-export function KaggleLink() {
+export const KaggleLink: Component = () => {
   return (
     <SocialLink
       href="https://www.kaggle.com/nizhibitsky"
       brand="Kaggle"
-      className="hover:text-brand-kg dark:hover:text-brand-kg"
+      class="hover:text-[#20BEFF] dark:hover:text-[#20BEFF]"
     >
-      <FaKaggle className="-mt-px h-full w-full" />
+      <FaBrandsKaggle class="-mt-px h-full w-full" />
     </SocialLink>
   );
-}
+};
 
-export function LinkedinLink() {
+export const LinkedinLink: Component = () => {
   return (
     <SocialLink
       href="https://www.linkedin.com/in/nizhibitsky/"
       brand="LinkedIn"
-      className="hover:text-brand-li dark:hover:text-brand-li"
+      class="hover:text-[#0077B5] dark:hover:text-[#0077B5]"
     >
-      <FaLinkedin className="h-full w-full" />
+      <FaBrandsLinkedin class="h-full w-full" />
     </SocialLink>
   );
-}
+};
 
-export function TelegramLink() {
+export const TelegramLink: Component = () => {
   return (
     <SocialLink
       href="https://t.me/nizhib"
       brand="Telegram"
-      className="hover:text-brand-tg dark:hover:text-brand-tg"
+      class="hover:text-[#0088CC] dark:hover:text-[#0088CC]"
     >
-      <FaTelegram className="h-full w-full" />
+      <FaBrandsTelegram class="h-full w-full" />
     </SocialLink>
   );
-}
+};
 
-export function TwitterLink() {
+export const TwitterLink: Component = () => {
   return (
     <SocialLink
       href="https://twitter.com/nizhib"
       brand="Twitter"
-      className="block h-5 w-5 text-gray-500 hover:text-brand-tw dark:text-gray-500 dark:hover:text-brand-tw"
+      class="hover:text-[#1DA1F2] dark:hover:text-[#1DA1F2]"
     >
-      <FaTwitter className="h-full w-full" />
+      <FaBrandsTwitter class="h-full w-full" />
     </SocialLink>
   );
-}
+};

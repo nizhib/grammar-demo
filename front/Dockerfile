@@ -6,7 +6,7 @@ COPY package.json pnpm-lock.yaml ./
 RUN pnpm install
 COPY . ./
 RUN pnpm build
-RUN pnpm pack
+RUN pnpm jampack
 
 FROM nginx:stable as runtime
 

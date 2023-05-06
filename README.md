@@ -19,10 +19,10 @@ docker compose up --build
 ## 🤗 Credits
 
 - 🤖 [ChatGPT](https://chat.openai.com)
-- ⚛️ [React](https://reactjs.org/)
+- 🔵 [Solid](https://www.solidjs.com/)
 - ⚡ [Vite](https://vitejs.dev/)
-- 🧩 [Flowbite](https://flowbite.com/)
-- 🎨 [Tailwind CSS](https://tailwindcss.com/)
+- 🎨 [Flowbite](https://flowbite.com/)
+- 🖌️ [Tailwind CSS](https://tailwindcss.com/)
 - ⚙️ [FastAPI](https://fastapi.tiangolo.com/)
 - 🏗️ [Poetry](https://python-poetry.org/)
 - 🚦 [Traefik](https://doc.traefik.io/traefik/)

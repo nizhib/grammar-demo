@@ -1,3 +1,4 @@
 .jampack/
+.vscode/
 dist/
 node_modules/

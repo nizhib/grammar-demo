@@ -8,4 +8,4 @@
 !tailwind.config.cjs
 !tsconfig.json
 !tsconfig.node.json
-!vite.config.json
+!vite.config.ts

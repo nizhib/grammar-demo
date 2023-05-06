@@ -1,9 +1,9 @@
-import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
+import solidPlugin from 'vite-plugin-solid';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [solidPlugin()],
   server: {
     proxy: {
       '/api': {

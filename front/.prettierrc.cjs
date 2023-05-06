@@ -1,11 +1,11 @@
 /** @type {import("@ianvs/prettier-plugin-sort-imports").PrettierConfig} */
-module.exports = {
+const config = {
   printWidth: 100,
   useTabs: false,
   semi: true,
   singleQuote: true,
 
-  importOrder: ['^react$', '<THIRD_PARTY_MODULES>', '^flowbite', '^[./]', '<TYPES>'],
+  importOrder: ['^solid-js', '<THIRD_PARTY_MODULES>', '^./lib/', '^./ui/', '^[./]', '<TYPES>'],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
   importOrderMergeDuplicateImports: true,
@@ -18,3 +18,5 @@ module.exports = {
   ],
   pluginSearchDirs: false,
 };
+
+module.exports = config;

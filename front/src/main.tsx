@@ -1,11 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { render } from 'solid-js/web';
+
+// import { attachDevtoolsOverlay } from '@solid-devtools/overlay';
 
 import App from './components/App';
+
 import './main.css';
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const root = document.getElementById('root');
+
+render(() => <App />, root!);
+
+// attachDevtoolsOverlay();

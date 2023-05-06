@@ -1,91 +1,128 @@
-import { useState } from 'react';
+import { Component, createSignal } from 'solid-js';
 
-import { Button } from 'flowbite-react';
+import Button from './lib/flowbite/Button';
+import Container from './lib/flowbite/Container';
+import { ThreeDots } from './lib/loaders';
 
-import Container from './ui/Container';
-import TextEditor from './ui/TextEditor';
-import TextRenderer from './ui/TextRenderer';
+import ResultViewer from './ui/ResultViewer';
+import SourceEditor from './ui/SourceEditor';
 
-// import samples from '../assets/data';
-
-// const DEFAULT_TEXT = samples[0].input;
-const DEFAULT_TEXT = 'London iz a capital ov Great Britain';
+const DEFAULT_TEXT = 'London iz ze capital ov Great Britain';
 const PLACEHOLDER = 'Who is on duty today?';
 
-function Grammarify() {
-  const [text, setText] = useState(DEFAULT_TEXT);
-  const [fixed, setFixed] = useState('');
-  const [isEditing, setIsEditing] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+type RequestData = {
+  text: string;
+};
 
-  async function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-    if (!isEditing) {
-      setIsEditing(true);
-    } else {
-      setFixed('');
-      setError('');
-      setIsLoading(true);
-      try {
-        const response = await fetch('/api/grammarify', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text }),
-        });
-        if (!response.ok) {
-          let message = await response.text();
-          try {
-            message = JSON.parse(message).message;
-          } catch {
-            // ignore
-          } finally {
-            message ||= `${response.status}: ${response.statusText}`;
-            setError(message);
-          }
-        } else {
-          const data = await response.json();
-          setFixed(data.data.message);
-        }
-      } catch (error) {
-        const message = error instanceof Error ? error.message : String(error);
-        setError(message);
-      } finally {
-        setIsLoading(false);
-        setIsEditing(false);
-      }
+type ResponseData = {
+  success: boolean;
+  total: number;
+};
+
+type SuccessfulResponse = ResponseData & {
+  data: {
+    message: string;
+    conversation_id?: string;
+    parent_id?: string;
+  };
+};
+
+type FailedResponse = ResponseData & {
+  message: string;
+};
+
+const Grammarify: Component = () => {
+  const [source, setSource] = createSignal(DEFAULT_TEXT);
+  const [result, setResult] = createSignal('');
+  const [state, setState] = createSignal<'edit' | 'busy' | 'done' | 'fail'>('edit');
+
+  const handleClick = async () => {
+    if (state() !== 'edit') {
+      setState('edit');
+      return;
     }
-  }
+    setResult('');
+    setState('busy');
+    // eslint-disable-next-line no-promise-executor-return
+    await new Promise((r) => setTimeout(r, 1000));
+    try {
+      const request = { text: source() } as RequestData;
+      const response = await fetch('/api/grammarify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(request),
+      });
+      if (!response.ok) {
+        let message = await response.text();
+        try {
+          const reponseData = JSON.parse(message) as FailedResponse;
+          message = reponseData.message;
+        } catch {
+          // ignore
+        } finally {
+          message ||= `${response.status}: ${response.statusText}`;
+          setResult(message);
+          setState('fail');
+        }
+      } else {
+        const data = (await response.json()) as SuccessfulResponse;
+        setResult(data.data.message);
+        setState('done');
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      setResult(message);
+      setState('fail');
+    }
+  };
+
+  const baseClass = 'text-gray-800 dark:text-gray-300 md:text-lg';
+  const intent = () => {
+    switch (state()) {
+      case 'edit':
+        return 'primary';
+      case 'busy':
+        return 'info';
+      default:
+        return 'secondary';
+    }
+  };
 
   return (
-    <Container className="flex grow flex-col gap-4 px-2 py-4 md:px-4 lg:px-6">
-      {isEditing || isLoading ? (
-        <TextEditor
-          className="text-gray-800 dark:text-gray-300 md:text-lg"
+    <Container class="flex grow flex-col gap-4 px-2 py-4 md:px-4 lg:px-6">
+      {['edit', 'busy'].includes(state()) && (
+        <SourceEditor
+          value={source()}
+          onInput={(e) => setSource(e.currentTarget.value)}
+          class={baseClass}
           placeholder={PLACEHOLDER}
-          value={text}
-          onValueChange={setText}
         />
-      ) : (
-        <>
-          {fixed && (
-            <TextRenderer className="text-gray-800 dark:text-gray-300 md:text-lg" text={fixed} />
-          )}
-          {error && (
-            <div className="grow">
-              <h2 className="text-lg text-red-600 dark:text-red-400 md:text-xl lg:text-2xl">
-                {error}
-              </h2>
-            </div>
-          )}
-        </>
+      )}
+      {state() === 'done' && <ResultViewer class={baseClass} result={result()} />}
+      {state() === 'fail' && (
+        <h2 class="grow text-lg text-red-600 dark:text-red-400 md:text-xl lg:text-2xl">
+          {result()}
+        </h2>
       )}
       <div>
-        <Button disabled={isLoading} color={isEditing ? 'info' : 'purple'} onClick={handleClick}>
-          {isLoading ? 'Sending $5 to Kenya...' : isEditing ? 'Analyze the text' : 'Edit the text'}
+        <Button
+          disabled={state() === 'busy'}
+          intent={intent()}
+          onClick={handleClick}
+          class="flex items-center gap-2"
+        >
+          {state() === 'edit' && 'Analyze the text'}
+          {state() === 'busy' && (
+            <>
+              <ThreeDots class="h-4 w-4" />
+              Sending $5 to Kenya...
+            </>
+          )}
+          {['done', 'fail'].includes(state()) && 'Edit the text'}
         </Button>
       </div>
     </Container>
   );
-}
+};
 
 export default Grammarify;

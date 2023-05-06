@@ -1,21 +1,23 @@
-import { Flowbite } from 'flowbite-react';
+import { Component } from 'solid-js';
+
+import { ThemeProvider } from './lib/flowbite/ThemeSwitcher';
 
 import Footer from './Footer';
 import Grammarify from './Grammarify';
 import Header from './Header';
 
-function App() {
+const App: Component = () => {
   return (
-    <Flowbite>
-      <div className="flex min-h-screen flex-col bg-white dark:bg-gray-800">
+    <ThemeProvider>
+      <div class="flex min-h-screen flex-col bg-white dark:bg-gray-800">
         <Header />
-        <main className="flex grow">
+        <main class="flex grow">
           <Grammarify />
         </main>
         <Footer />
       </div>
-    </Flowbite>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
