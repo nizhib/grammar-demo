@@ -17,8 +17,8 @@ from pydantic import BaseModel
 
 load_dotenv()
 
-OPENAI_MODEL = os.environ.get("OPENAI_MODEL")
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "NO_MODEL_PROVIDED")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "NO_API_KEY_PROVIDED")
 OPENAI_ORGANIZATION = os.environ.get("OPENAI_ORGANIZATION")
 LOGGING_LEVEL = "DEBUG"
 LOGGING_FORMAT = "[%(asctime)s] %(name)s:%(lineno)d: %(message)s"

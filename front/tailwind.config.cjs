@@ -1,9 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { fontFamily } = require('tailwindcss/defaultTheme');
 const colors = require('tailwindcss/colors');
-
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const flowbite = require('flowbite/plugin');
 
 /** @type {import('tailwindcss').Config} */

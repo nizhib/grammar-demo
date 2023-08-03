@@ -1,4 +1,4 @@
-import { ParentComponent, createSignal, onCleanup, onMount } from 'solid-js';
+import { createSignal, onCleanup, onMount, ParentComponent } from 'solid-js';
 
 import { cx } from 'class-variance-authority';
 
@@ -23,7 +23,7 @@ const Tooltip: ParentComponent<TooltipProps> = (props) => {
       document.documentElement.scrollWidth,
       document.body.offsetWidth,
       document.documentElement.offsetWidth,
-      document.documentElement.clientWidth
+      document.documentElement.clientWidth,
     );
     const baseRect = baseRef!.getBoundingClientRect();
     const tipRect = tipRef!.getBoundingClientRect();

@@ -1,4 +1,4 @@
-import { JSXElement, ParentComponent, createEffect, createSignal } from 'solid-js';
+import { createEffect, createSignal, JSXElement, ParentComponent } from 'solid-js';
 
 import { cx } from 'class-variance-authority';
 

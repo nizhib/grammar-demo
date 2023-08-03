@@ -1,4 +1,4 @@
-FROM node:18 AS build
+FROM node:20 AS build
 
 RUN npm i -g pnpm
 WORKDIR /usr/src/app

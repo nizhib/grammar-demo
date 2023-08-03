@@ -1,4 +1,4 @@
-import { Component, ParentComponent, createContext, createEffect, useContext } from 'solid-js';
+import { Component, createContext, createEffect, ParentComponent, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
 import { HiSolidMoon, HiSolidSun } from 'solid-icons/hi';

@@ -1,8 +1,8 @@
-import { defineConfig } from 'vite';
+/* eslint-disable import/no-extraneous-dependencies */
+import { defineConfig, UserConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
 
-// https://vitejs.dev/config/
-export default defineConfig({
+const config: UserConfig = defineConfig({
   plugins: [solidPlugin()],
   server: {
     proxy: {
@@ -13,3 +13,5 @@ export default defineConfig({
     },
   },
 });
+
+export default config;

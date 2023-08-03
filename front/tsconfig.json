@@ -15,5 +15,5 @@
     "noEmit": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"]
   },
-  "include": ["src/", ".eslintrc.cjs", ".prettierrc.cjs", "*.config.cjs"]
+  "include": ["src/", ".eslintrc.cjs", "*.cjs", "*.ts"]
 }

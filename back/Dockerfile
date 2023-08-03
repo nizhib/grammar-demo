@@ -1,4 +1,4 @@
-FROM python:3.10-slim as python
+FROM python:3.11-slim as python
 
 LABEL maintainer="Evgeny Nizhibitsky <nizhib@github.com>"
 
@@ -13,7 +13,7 @@ WORKDIR /app
 
 FROM python as build
 
-ENV POETRY_VERSION=1.3.2
+ENV POETRY_VERSION=1.5.1
 ENV POETRY_HOME=/opt/poetry
 ENV POETRY_VIRTUALENVS_IN_PROJECT=true
 ENV PATH="$POETRY_HOME/bin:$PATH"
