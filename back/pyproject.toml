@@ -1,21 +1,25 @@
 [tool.poetry]
 name = "grammar-demo"
-version = "0.2.1"
+version = "0.2.2"
 description = ""
 authors = ["Evgeny Nizhibitsky <nizhib@github.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-fastapi = "^0.100.1"
-pydantic = "^2.1.1"
+fastapi = "^0.103.1"
+pydantic = "^2.3.0"
 python-dotenv = "^1.0.0"
 ujson = "^5.8.0"
 uvicorn = "^0.23.2"
-openai = "^0.27.8"
+openai = "^0.28.0"
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.7.0"
+black = "^23.9.1"
 isort = "^5.12.0"
+
+[tool.isort]
+known_first_party = ["openai"]
+# known_local_folder = ["api", "models"]
 
 [build-system]
 requires = ["poetry-core"]

@@ -9,11 +9,12 @@ import time
 from dataclasses import asdict, dataclass
 from http import HTTPStatus
 
-import openai
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.responses import UJSONResponse as JSONResponse
 from pydantic import BaseModel
+
+import openai
 
 load_dotenv()
 
@@ -88,7 +89,7 @@ def grammarify(request: RequestData) -> JSONResponse:
 
     try:
         completion = openai.ChatCompletion.create(**asdict(query))
-        response = completion.choices[0].message.content
+        response = completion.choices[0].message.content  # type: ignore
         result.data = GPTResponse(message=response)
         result.success = True
     except Exception as e:
