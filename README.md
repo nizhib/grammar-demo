@@ -4,7 +4,7 @@ Making your English a little more Queen's.
 
 ![Demo screenshot](docs/demo.png "Demo Screenshot")
 
-The demo is built on top of 🤖 OpenAI ChatGPT[¹](#-credits).
+The demo is built on top of 🤖 OpenAI Platform[¹](#-credits).
 
 ## 🚀 Running
 
@@ -18,7 +18,7 @@ docker compose up --build
 
 ## 🤗 Credits
 
-- 🤖 [ChatGPT](https://chat.openai.com)
+- 🤖 [OpenAI](https://platform.openai.com/)
 - 🔵 [Solid](https://www.solidjs.com/)
 - ⚡ [Vite](https://vitejs.dev/)
 - 🎨 [Flowbite](https://flowbite.com/)
