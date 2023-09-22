@@ -8,7 +8,7 @@ The demo is built on top of 🤖 OpenAI ChatGPT[¹](#-credits).
 
 ## 🚀 Running
 
-Copy `back/.env.example` to `back/.env` and fill in the [OpenAI API keys](https://chat.openai.com/api/auth/session).
+Copy `back/.env.example` to `back/.env` and fill in the [OpenAI API keys](https://platform.openai.com/account/api-keys).
 
 Use docker compose to start backend, frontend and proxy:
 
